@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Briefcase, Eye, EyeOff, Mail, Lock, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,16 +9,66 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState("cliente");
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Credenciais de teste
+  const testCredentials = {
+    cliente: {
+      email: "cliente@teste.com",
+      password: "123456"
+    },
+    prestador: {
+      email: "prestador@teste.com", 
+      password: "123456"
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui seria implementada a lógica de autenticação
-    console.log("Form submitted");
+    
+    if (isLogin) {
+      // Verificar credenciais de teste
+      if (email === testCredentials.cliente.email && password === testCredentials.cliente.password) {
+        toast({
+          title: "Login realizado com sucesso!",
+          description: "Bem-vindo, Cliente!",
+        });
+        navigate("/cliente");
+      } else if (email === testCredentials.prestador.email && password === testCredentials.prestador.password) {
+        toast({
+          title: "Login realizado com sucesso!",
+          description: "Bem-vindo, Prestador!",
+        });
+        navigate("/prestador");
+      } else {
+        toast({
+          title: "Erro no login",
+          description: "Email ou senha incorretos. Use as credenciais de teste.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      // Simular cadastro bem-sucedido
+      toast({
+        title: "Cadastro realizado com sucesso!",
+        description: "Sua conta foi criada. Você pode fazer login agora.",
+      });
+      setIsLogin(true);
+    }
+  };
+
+  const fillTestCredentials = (type: 'cliente' | 'prestador') => {
+    setEmail(testCredentials[type].email);
+    setPassword(testCredentials[type].password);
   };
 
   return (
@@ -56,6 +108,33 @@ const Auth = () => {
                   </TabsList>
 
                   <TabsContent value="login">
+                    {/* Credenciais de Teste */}
+                    <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <h4 className="font-semibold text-blue-800 mb-3">🧪 Credenciais de Teste</h4>
+                      <div className="space-y-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-start"
+                          onClick={() => fillTestCredentials('cliente')}
+                        >
+                          <User className="w-4 h-4 mr-2" />
+                          Cliente: cliente@teste.com / 123456
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-start"
+                          onClick={() => fillTestCredentials('prestador')}
+                        >
+                          <Briefcase className="w-4 h-4 mr-2" />
+                          Prestador: prestador@teste.com / 123456
+                        </Button>
+                      </div>
+                    </div>
+
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="email">E-mail</Label>
@@ -66,6 +145,8 @@ const Auth = () => {
                             type="email"
                             placeholder="seu@email.com"
                             className="pl-10"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                           />
                         </div>
@@ -80,6 +161,8 @@ const Auth = () => {
                             type={showPassword ? "text" : "password"}
                             placeholder="Sua senha"
                             className="pl-10 pr-10"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                           />
                           <button
@@ -201,7 +284,6 @@ const Auth = () => {
                         </div>
                       </div>
 
-                      {/* Prestador Specific Fields */}
                       {userType === "prestador" && (
                         <>
                           <div className="space-y-2">
