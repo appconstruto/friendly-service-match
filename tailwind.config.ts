@@ -61,7 +61,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				'orange-1': '#FE4B01',
+				'orange-2': '#FDD867',
+				'orange-3': '#FE5D1A',
+				'orange-4': '#FE6F34',
+				'orange-5': '#FE9367',
+				'orange-6': '#FFBEA3',
+				'orange-7': '#FFDFD1',
+				'orange-8': '#FDD867',
+				'orange-9': '#F73D00',
+				'orange-10': '#FEEFC2',
+				'orange-11': '#FFF7E1',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
