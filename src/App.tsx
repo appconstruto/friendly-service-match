@@ -8,6 +8,9 @@ import Prestador from "./pages/Prestador";
 import Auth from "./pages/Auth";
 import Avaliacoes from "./pages/Avaliacoes";
 import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
+import Busca from "./pages/Busca";
+import PerfilPrestador from "./pages/PerfilPrestador";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +21,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/busca" element={<Busca />} />
+          <Route path="/perfil-prestador" element={<PerfilPrestador />} />
           <Route path="/cliente" element={<Cliente />} />
           <Route path="/prestador" element={<Prestador />} />
           <Route path="/auth" element={<Auth />} />

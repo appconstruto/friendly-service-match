@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Filter, Star, MapPin, Clock, Heart, MessageCircle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -135,7 +134,7 @@ const Cliente = () => {
                       <SelectValue placeholder="Todas as categorias" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Todas as categorias</SelectItem>
+                      <SelectItem value="all">Todas as categorias</SelectItem>
                       <SelectItem value="limpeza">Limpeza</SelectItem>
                       <SelectItem value="reforma">Reformas</SelectItem>
                       <SelectItem value="beleza">Beleza</SelectItem>

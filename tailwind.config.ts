@@ -19,39 +19,39 @@ export default {
 		},
 		extend: {
 			colors: {
-				border: 'hsl(var(--border))',
+				border: '#FDD867',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
+				background: '#FFF7E1',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '#FE4B01',
+					light: '#FE6F34',
+					dark: '#F73D00',
+					foreground: '#FFF7E1',
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '#FDD867',
+					light: '#FEEFC2',
+					dark: '#FE5D1A',
+					foreground: '#FE4B01',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
 				},
-				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
-				},
+				muted: '#FEEFC2',
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '#FE9367',
+					light: '#FFBEA3',
+					dark: '#FE6F34',
+					foreground: '#FE4B01',
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
 				},
-				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
-				},
+				card: '#FFDFD1',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,17 +62,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				'orange-1': '#FE4B01',
-				'orange-2': '#FDD867',
-				'orange-3': '#FE5D1A',
-				'orange-4': '#FE6F34',
-				'orange-5': '#FE9367',
-				'orange-6': '#FFBEA3',
-				'orange-7': '#FFDFD1',
-				'orange-8': '#FDD867',
-				'orange-9': '#F73D00',
-				'orange-10': '#FEEFC2',
-				'orange-11': '#FFF7E1',
+				highlight: '#FE4B01',
+				orange1: '#FE4B01',
+				orange2: '#FDD867',
+				orange3: '#FE5D1A',
+				orange4: '#FE6F34',
+				orange5: '#FE9367',
+				orange6: '#FFBEA3',
+				orange7: '#FFDFD1',
+				orange8: '#FDD867',
+				orange9: '#F73D00',
+				orange10: '#FEEFC2',
+				orange11: '#FFF7E1',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
