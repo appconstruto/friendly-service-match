@@ -74,11 +74,23 @@ export default {
 				orange9: '#F73D00',
 				orange10: '#FEEFC2',
 				orange11: '#FFF7E1',
+				glass: 'rgba(255,255,255,0.85)',
+				border: '#E5EAF2',
+				gray: {
+					100: '#F3F8FF',
+					200: '#E5EAF2',
+					300: '#C9D6E6',
+					400: '#A0AEC0',
+					500: '#718096',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				xl: '1.5rem',
+				'2xl': '2rem',
+				full: '9999px',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -101,7 +113,15 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+			},
+			boxShadow: {
+				glass: '0 8px 32px 0 rgba(31, 38, 135, 0.10)',
+				card: '0 4px 24px 0 rgba(80, 112, 255, 0.08)',
+				dock: '0 2px 16px 0 rgba(80, 112, 255, 0.10)',
+			},
+			fontFamily: {
+				sans: ['Inter', 'Segoe UI', 'Arial', 'sans-serif'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

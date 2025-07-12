@@ -1,152 +1,139 @@
 import React from "react";
-import { Palette, Briefcase, Truck, SprayCan, Laptop, Utensils, Hammer, Scissors, Camera, Search, Link2, Star } from "lucide-react";
+import { Palette, Briefcase, Truck, SprayCan, Camera, Search as SearchIcon, Link2, Star, Home as HomeIcon, User as UserIcon, Settings as SettingsIcon } from "lucide-react";
+
+const categories = [
+  { icon: Palette, label: "Design" },
+  { icon: Briefcase, label: "Marketing" },
+  { icon: Truck, label: "Transporte" },
+  { icon: SprayCan, label: "Limpeza" },
+];
 
 const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f6f6fb]">
-      {/* Header com gradiente */}
-      <header className="w-full bg-gradient-to-r from-[#7b2ff2] to-[#1e90ff] py-16 px-4 text-white text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">Encontre o profissional ideal para o seu serviço</h1>
-        <p className="mb-6">Conectamos você aos melhores profissionais da sua região para qualquer tipo de serviço que você precisar.</p>
-        <div className="flex justify-center max-w-xl mx-auto">
-          <input
-            type="text"
-            placeholder="O que você está procurando?"
-            className="w-full rounded-l-md px-4 py-2 text-gray-800 focus:outline-none"
-          />
-          <button className="bg-white text-[#1e90ff] px-6 py-2 rounded-r-md font-semibold hover:bg-gray-100 transition">Buscar</button>
-        </div>
-      </header>
-
-      {/* Categorias de Serviços */}
-      <section className="max-w-4xl mx-auto mt-12 px-4">
-        <h2 className="text-xl font-semibold mb-4">Categorias de Serviços</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* Cards de categoria com ícones Lucide */}
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Palette className="mb-2 w-8 h-8 text-[#7b2ff2]" />
-            <span>Design</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Briefcase className="mb-2 w-8 h-8 text-[#1e90ff]" />
-            <span>Marketing</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Truck className="mb-2 w-8 h-8 text-[#7b2ff2]" />
-            <span>Transporte</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <SprayCan className="mb-2 w-8 h-8 text-[#1e90ff]" />
-            <span>Limpeza</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Laptop className="mb-2 w-8 h-8 text-[#7b2ff2]" />
-            <span>Tecnologia</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Utensils className="mb-2 w-8 h-8 text-[#1e90ff]" />
-            <span>Alimentação</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Hammer className="mb-2 w-8 h-8 text-[#7b2ff2]" />
-            <span>Construção</span>
-          </div>
-          <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <Scissors className="mb-2 w-8 h-8 text-[#1e90ff]" />
-            <span>Beleza</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Profissionais em Destaque */}
-      <section className="max-w-4xl mx-auto mt-12 px-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Profissionais em Destaque</h2>
-          <a href="#" className="text-[#1e90ff] hover:underline">Ver todos &rarr;</a>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Card de profissional */}
-          <div className="bg-gradient-to-br from-[#7b2ff2] to-[#1e90ff] rounded-xl p-1">
-            <div className="bg-white rounded-xl p-4 h-full flex flex-col">
-              <div className="flex items-center mb-2">
-                <Camera className="text-3xl mr-2 text-[#7b2ff2]" />
-                <span className="font-semibold">Fotógrafo</span>
+    <div className="main-container p-4 sm:p-6 lg:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Removido: Sidebar de categorias */}
+        <main className="w-full flex flex-col gap-8">
+          {/* Header */}
+          <div className="bg-white rounded-2xl p-8 custom-shadow mb-6">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Encontre o profissional ideal</h1>
+            <p className="text-gray-500 mb-6 text-lg">Conectamos você aos melhores profissionais da sua região para qualquer tipo de serviço.</p>
+            <div className="flex w-full gap-2 mb-6">
+              <input
+                type="text"
+                placeholder="O que você está procurando?"
+                className="flex-1 rounded-full px-6 py-4 text-gray-700 bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+              />
+              <button className="bg-blue-500 text-white px-8 py-4 rounded-full font-semibold shadow-md hover:bg-blue-600 transition text-base">Buscar</button>
+            </div>
+            {/* Categorias logo abaixo da busca */}
+            <div className="mt-2">
+              <h2 className="text-xl font-bold mb-4 text-gray-800">Categorias</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {categories.map(cat => (
+                  <button key={cat.label} className="bg-gray-100 text-gray-700 font-semibold py-4 px-4 rounded-lg text-sm hover:bg-gray-200 transition-colors flex flex-col items-center gap-2">
+                    <cat.icon className="w-7 h-7 text-blue-500" />
+                    {cat.label}
+                  </button>
+                ))}
               </div>
-              <span className="text-sm text-gray-500 mb-1">Itapira - SP</span>
-              <span className="text-xs text-green-600 mb-2">Novo</span>
-              <span className="font-bold text-[#7b2ff2] mt-auto">R$ 300/h</span>
             </div>
           </div>
-          {/* Adicione mais cards conforme necessário */}
-        </div>
-      </section>
 
-      {/* Como Funciona */}
-      <section className="max-w-4xl mx-auto mt-16 px-4">
-        <h2 className="text-xl font-semibold text-center mb-8">Como Funciona</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div>
-            <div className="flex justify-center mb-2"><Search className="w-8 h-8 text-[#7b2ff2]" /></div>
-            <h3 className="font-semibold mb-1">Busque um serviço</h3>
-            <p className="text-gray-600 text-sm">Encontre o profissional qualificado para o serviço que você precisa.</p>
+          {/* Profissionais em Destaque */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {/* Card exemplo 1 */}
+            <div className="bg-white p-6 rounded-2xl custom-shadow flex flex-col justify-between transition-transform duration-300 card-hover">
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <Camera className="w-12 h-12 text-blue-500" />
+                  <div>
+                    <h3 className="font-bold text-lg text-gray-800">Ana Silva</h3>
+                    <p className="text-sm text-gray-500">Fotógrafa • Itapira-SP</p>
+                  </div>
+                  <span className="ml-auto bg-red-100 text-red-600 text-xs font-semibold px-3 py-1 rounded-full">Novo</span>
+                </div>
+                <div className="flex items-center mb-4">
+                  <Star className="w-4 h-4 text-yellow-400" fill="#facc15" />
+                  <Star className="w-4 h-4 text-yellow-400" fill="#facc15" />
+                  <Star className="w-4 h-4 text-yellow-400" fill="#facc15" />
+                  <Star className="w-4 h-4 text-yellow-400" fill="#facc15" />
+                  <Star className="w-4 h-4 text-yellow-400" fill="#facc15" />
+                  <span className="ml-2 text-sm text-gray-600 font-medium">4.8</span>
+                  <span className="ml-1 text-sm text-gray-400">(127)</span>
+                </div>
+                <p className="text-gray-600 text-sm mb-4">Fotógrafa profissional especializada em eventos e retratos.</p>
+              </div>
+              <div className="flex justify-end items-center mt-auto">
+                <p className="text-lg font-bold text-green-600">R$ 300/h</p>
+              </div>
+            </div>
+            {/* Outros cards mockados podem ser adicionados aqui */}
           </div>
-          <div>
-            <div className="flex justify-center mb-2"><Link2 className="w-8 h-8 text-[#1e90ff]" /></div>
-            <h3 className="font-semibold mb-1">Conecte-se</h3>
-            <p className="text-gray-600 text-sm">Entre em contato com o profissional e solicite um orçamento.</p>
-          </div>
-          <div>
-            <div className="flex justify-center mb-2"><Star className="w-8 h-8 text-yellow-400" /></div>
-            <h3 className="font-semibold mb-1">Avalie o serviço</h3>
-            <p className="text-gray-600 text-sm">Após a conclusão, avalie o profissional e compartilhe sua experiência.</p>
-          </div>
-        </div>
-      </section>
 
-      {/* Estatísticas */}
-      <section className="w-full bg-gradient-to-r from-[#7b2ff2] to-[#1e90ff] py-10 mt-16">
-        <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-8 text-white text-center">
-          <div>
-            <div className="text-2xl font-bold">500+</div>
-            <div className="text-sm">Profissionais</div>
+          {/* Como Funciona */}
+          <div className="bg-white rounded-2xl p-8 custom-shadow flex flex-col gap-6">
+            <div className="flex items-center gap-4">
+              <SearchIcon className="w-7 h-7 text-blue-500" />
+              <span className="font-medium text-gray-800 text-lg">Busque um serviço</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link2 className="w-7 h-7 text-blue-500" />
+              <span className="font-medium text-gray-800 text-lg">Conecte-se</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Star className="w-7 h-7 text-yellow-400" />
+              <span className="font-medium text-gray-800 text-lg">Avalie o serviço</span>
+            </div>
           </div>
-          <div>
-            <div className="text-2xl font-bold">50+</div>
-            <div className="text-sm">Categorias</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold">1200+</div>
-            <div className="text-sm">Serviços realizados</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold">4.8</div>
-            <div className="text-sm">Avaliação média</div>
-          </div>
-        </div>
-      </section>
 
-      {/* Chamada para prestadores */}
-      <section className="max-w-3xl mx-auto mt-12 px-4">
-        <div className="bg-white rounded-xl shadow p-8 flex flex-col md:flex-row items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-[#1e90ff] mb-2">É um profissional qualificado?</h2>
-            <ul className="text-gray-700 text-sm mb-4 list-disc pl-5">
+          {/* Estatísticas */}
+          <div className="bg-white rounded-2xl p-8 custom-shadow flex flex-row items-center justify-between text-center">
+            <div>
+              <div className="text-2xl font-bold text-blue-500">500+</div>
+              <div className="text-sm text-gray-500">Profissionais</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-blue-500">50+</div>
+              <div className="text-sm text-gray-500">Categorias</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-blue-500">1200+</div>
+              <div className="text-sm text-gray-500">Serviços realizados</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-blue-500">4.8</div>
+              <div className="text-sm text-gray-500">Avaliação média</div>
+            </div>
+          </div>
+
+          {/* Chamada para prestadores */}
+          <div className="bg-white rounded-2xl p-8 custom-shadow flex flex-col items-center">
+            <h2 className="text-lg font-bold text-blue-500 mb-2">É um profissional qualificado?</h2>
+            <ul className="text-blue-500 text-base mb-4 list-disc pl-5">
               <li>Aumente sua visibilidade no mercado</li>
               <li>Gerencie seus serviços online</li>
               <li>Receba avaliações e construa sua reputação</li>
             </ul>
-            <button className="bg-gradient-to-r from-[#7b2ff2] to-[#1e90ff] text-white px-6 py-2 rounded-md font-semibold hover:opacity-90 transition">Torne-se um prestador</button>
+            <button className="bg-blue-500 text-white px-8 py-4 rounded-full font-semibold shadow-md hover:bg-blue-600 transition text-base">Torne-se um prestador</button>
           </div>
-        </div>
-      </section>
 
-      {/* Depoimentos */}
-      <section className="max-w-3xl mx-auto mt-16 px-4 mb-12">
-        <h2 className="text-xl font-semibold text-center mb-6">O que Dizem Nossos Usuários</h2>
-        <div className="bg-gray-100 rounded-xl p-6 text-center text-gray-500">
-          "Ainda não temos depoimentos. Seja o primeiro a compartilhar sua experiência!"
-        </div>
-      </section>
+          {/* Depoimentos */}
+          <div className="bg-white rounded-2xl p-8 custom-shadow text-center text-gray-500 text-base">
+            "Ainda não temos depoimentos. Seja o primeiro a compartilhar sua experiência!"
+          </div>
+        </main>
+      </div>
+      <style>{`
+        .custom-shadow {
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .card-hover:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+      `}</style>
     </div>
   );
 };

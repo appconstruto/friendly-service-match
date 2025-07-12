@@ -11,6 +11,9 @@ import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Busca from "./pages/Busca";
 import PerfilPrestador from "./pages/PerfilPrestador";
+import Dock from "./components/Dock";
+import Configuracoes from "./pages/Configuracoes";
+import PerfilProfissional from "./pages/PerfilProfissional";
 
 const queryClient = new QueryClient();
 
@@ -20,10 +23,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <Dock />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/busca" element={<Busca />} />
+          <Route path="/perfil-profissional" element={<PerfilProfissional />} />
           <Route path="/perfil-prestador" element={<PerfilPrestador />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/cliente" element={<Cliente />} />
           <Route path="/prestador" element={<Prestador />} />
           <Route path="/auth" element={<Auth />} />

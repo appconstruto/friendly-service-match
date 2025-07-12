@@ -2,95 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Paleta customizada inspirada na referência visual:
+   Roxo: #725EF2
+   Azul claro: #B3C8F2
+   Azul muito claro: #DCE6F2
+   Azul vibrante: #0798F2
+   Coral: #F26F63
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --color-primary: 242 81% 65%;      /* #725EF2 */
+    --color-primary-light: 217 62% 83%;/* #B3C8F2 */
+    --color-bg-light: 216 44% 92%;     /* #DCE6F2 */
+    --color-accent: 200 94% 48%;       /* #0798F2 */
+    --color-danger: 7 89% 67%;         /* #F26F63 */
+    --color-white: 0 0% 100%;
+    --color-gray: 220 14% 75%;         /* cinza claro para labels */
+    --background: var(--color-bg-light);
     --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
+    --card: var(--color-white);
     --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
+    --popover: var(--color-white);
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-white);
+    --secondary: var(--color-primary-light);
     --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --muted: var(--color-bg-light);
+    --muted-foreground: var(--color-gray);
+    --accent: var(--color-accent);
+    --accent-foreground: var(--color-white);
+    --destructive: var(--color-danger);
+    --destructive-foreground: var(--color-white);
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: var(--color-primary);
+    --radius: 1.2rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 242 81% 15%;
     --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
+    --card: 242 81% 18%;
     --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
+    --popover: 242 81% 18%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-white);
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
+    --muted-foreground: var(--color-gray);
+    --accent: var(--color-accent);
+    --accent-foreground: var(--color-white);
+    --destructive: var(--color-danger);
+    --destructive-foreground: var(--color-white);
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --ring: var(--color-primary);
   }
 }
 
@@ -100,6 +70,9 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #DCE6F2 0%, #B3C8F2 60%, #725EF2 100%);
+    /* Gradiente inspirado na referência visual */
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   }
 }
