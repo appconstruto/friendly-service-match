@@ -37,9 +37,9 @@ const PerfilPrestador: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-indigo-50 font-poppins md:ml-20 pb-24 flex">
+    <div className="min-h-screen bg-indigo-50 font-poppins md:ml-20 pb-24 flex flex-col md:flex-row">
       {/* Sidebar de perfil à esquerda */}
-      <aside className="hidden md:flex flex-col w-80 bg-white rounded-2xl shadow-lg p-8 mr-8">
+      <aside className="hidden md:flex flex-col w-80 bg-white rounded-2xl shadow-lg p-4 md:p-8 mr-0 md:mr-8 mb-6 md:mb-0">
         <div className="flex flex-col items-center mb-10">
           <div className="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center text-white mb-4">
             <User className="w-12 h-12" />
@@ -58,15 +58,15 @@ const PerfilPrestador: React.FC = () => {
         </div>
       </aside>
       {/* Main */}
-      <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
-        <div className="w-full max-w-5xl bg-white p-8 rounded-2xl shadow-lg">
-          <div className="flex flex-wrap gap-4 mb-8">
+      <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 w-full">
+        <div className="w-full max-w-5xl bg-white p-4 md:p-8 rounded-2xl shadow-lg">
+          <div className="flex flex-wrap gap-2 md:gap-4 mb-6 md:mb-8">
             <button className="px-6 py-2 bg-blue-500 text-white rounded-full font-semibold">Perfil</button>
             <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold">Agendamentos</button>
             <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold">Avaliações</button>
             <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold">Configurações</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
             {/* Informações do Perfil */}
             <div>
               <div className="flex justify-between items-center mb-6">
@@ -126,7 +126,7 @@ const PerfilPrestador: React.FC = () => {
                 <h4 className="text-lg font-bold text-gray-800 mb-4">Serviços oferecidos</h4>
                 <div className="space-y-4">
                   {profile.services.map(service => (
-                    <div key={service.id} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
+                    <div key={service.id} className="bg-gray-100 p-3 md:p-4 rounded-lg flex justify-between items-center">
                       <div>
                         <p className="font-semibold text-gray-800">{service.name}</p>
                         <p className="text-sm text-gray-600">{service.description}</p>

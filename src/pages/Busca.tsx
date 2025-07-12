@@ -98,11 +98,11 @@ const Busca: React.FC = () => {
   ];
 
   return (
-    <div className="main-container p-4 sm:p-6 lg:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
-      <div className="flex flex-col lg:flex-row gap-8">
+    <div className="main-container p-4 sm:p-6 md:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Sidebar de filtros */}
-        <aside className="w-full lg:w-1/4 xl:w-1/5">
-          <div className="bg-white rounded-2xl p-6 custom-shadow sticky top-8">
+        <aside className="w-full lg:w-1/4 xl:w-1/5 mb-6 lg:mb-0">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 custom-shadow sticky top-8">
             <h2 className="text-xl font-bold mb-6 text-gray-800">Filtros</h2>
             <div>
               <h3 className="font-semibold text-gray-700 mb-4">Categorias</h3>
@@ -174,7 +174,7 @@ const Busca: React.FC = () => {
             <button className="bg-white text-gray-600 font-semibold py-2 px-5 rounded-full text-sm custom-shadow hover:bg-gray-100 transition-colors">Avaliação</button>
             <button className="bg-white text-gray-600 font-semibold py-2 px-5 rounded-full text-sm custom-shadow hover:bg-gray-100 transition-colors">Lista</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {professionals
               .filter(p => selectedCategory === "Todas" || p.category === selectedCategory)
               .filter(p => selectedCity === "Todas" || p.location.split("-").pop()?.trim() === selectedCity)

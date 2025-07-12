@@ -10,40 +10,38 @@ const categories = [
 
 const Home: React.FC = () => {
   return (
-    <div className="main-container p-4 sm:p-6 lg:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Removido: Sidebar de categorias */}
+    <div className="main-container p-4 sm:p-6 md:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
+      <div className="flex flex-col gap-8">
         <main className="w-full flex flex-col gap-8">
           {/* Header */}
-          <div className="bg-white rounded-2xl p-8 custom-shadow mb-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Encontre o profissional ideal</h1>
-            <p className="text-gray-500 mb-6 text-lg">Conectamos você aos melhores profissionais da sua região para qualquer tipo de serviço.</p>
-            <div className="flex w-full gap-2 mb-6">
+          <div className="bg-white rounded-2xl p-4 sm:p-8 custom-shadow mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Encontre o profissional ideal</h1>
+            <p className="text-gray-500 mb-4 sm:mb-6 text-base sm:text-lg">Conectamos você aos melhores profissionais da sua região para qualquer tipo de serviço.</p>
+            <div className="flex flex-col sm:flex-row w-full gap-2 mb-4 sm:mb-6">
               <input
                 type="text"
                 placeholder="O que você está procurando?"
-                className="flex-1 rounded-full px-6 py-4 text-gray-700 bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                className="flex-1 rounded-full px-4 sm:px-6 py-3 sm:py-4 text-gray-700 bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
               />
-              <button className="bg-blue-500 text-white px-8 py-4 rounded-full font-semibold shadow-md hover:bg-blue-600 transition text-base">Buscar</button>
+              <button className="bg-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold shadow-md hover:bg-blue-600 transition text-base w-full sm:w-auto">Buscar</button>
             </div>
             {/* Categorias logo abaixo da busca */}
             <div className="mt-2">
-              <h2 className="text-xl font-bold mb-4 text-gray-800">Categorias</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-gray-800">Categorias</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {categories.map(cat => (
-                  <button key={cat.label} className="bg-gray-100 text-gray-700 font-semibold py-4 px-4 rounded-lg text-sm hover:bg-gray-200 transition-colors flex flex-col items-center gap-2">
-                    <cat.icon className="w-7 h-7 text-blue-500" />
+                  <button key={cat.label} className="bg-gray-100 text-gray-700 font-semibold py-3 sm:py-4 px-3 sm:px-4 rounded-lg text-sm hover:bg-gray-200 transition-colors flex flex-col items-center gap-2">
+                    <cat.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-500" />
                     {cat.label}
                   </button>
                 ))}
               </div>
             </div>
           </div>
-
           {/* Profissionais em Destaque */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {/* Card exemplo 1 */}
-            <div className="bg-white p-6 rounded-2xl custom-shadow flex flex-col justify-between transition-transform duration-300 card-hover">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl custom-shadow flex flex-col justify-between transition-transform duration-300 card-hover">
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <Camera className="w-12 h-12 text-blue-500" />
