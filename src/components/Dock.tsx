@@ -1,15 +1,17 @@
 import React from "react";
-import { Home, Search, User, Settings } from "lucide-react";
+import { Home, Search, User, Settings, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const Dock: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut } = useAuthContext();
 
   const menuItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Search, label: "Busca", path: "/busca" },
-    { icon: User, label: "Perfil", path: "/perfil-prestador" },
+    { icon: User, label: "Perfil", path: user?.role === 'provider' ? "/perfil-prestador" : "/cliente" },
     { icon: Settings, label: "Configurações", path: "/configuracoes" },
   ];
 
@@ -39,6 +41,15 @@ const Dock: React.FC = () => {
             </button>
           );
         })}
+        
+        {/* Botão de logout */}
+        <button
+          onClick={signOut}
+          className="w-12 h-12 flex items-center justify-center rounded-full shadow transition-all duration-200 bg-red-50 text-red-600 hover:bg-red-100"
+          title="Sair"
+        >
+          <LogOut className="w-6 h-6" />
+        </button>
       </div>
 
       {/* Dock inferior (mobile) */}
@@ -60,6 +71,15 @@ const Dock: React.FC = () => {
               </button>
             );
           })}
+          
+          {/* Botão de logout mobile */}
+          <button
+            onClick={signOut}
+            className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 bg-red-50 text-red-600 hover:bg-red-100"
+            title="Sair"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </>
