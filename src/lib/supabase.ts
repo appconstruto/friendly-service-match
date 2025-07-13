@@ -84,8 +84,14 @@ export interface UserProfile {
   role: 'user' | 'provider'
   first_name?: string
   last_name?: string
+  display_name?: string
   phone?: string
   location?: string
+  cep?: string
+  address?: string
+  number?: string
+  city?: string
+  state?: string
   birth_date?: string
   avatar_url?: string
   services?: string
