@@ -35,7 +35,7 @@ const App = () => (
           <DevModeBanner />
           <ProfileCompletionBanner />
           <Dock />
-          <Routes>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/busca" element={<Busca />} />
           <Route path="/perfil-profissional" element={<PerfilProfissional />} />

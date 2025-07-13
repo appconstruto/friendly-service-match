@@ -21,6 +21,35 @@ import {
   CheckCircle
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Popover } from "@/components/ui/popover";
+import { Command, CommandInput, CommandList, CommandItem, CommandEmpty } from "@/components/ui/command";
+import { useMemo } from "react";
+
+const serviceOptions = [
+  "Limpeza",
+  "Jardinagem",
+  "Pintura",
+  "Eletricista",
+  "Encanador",
+  "Pedreiro",
+  "Montador de Móveis",
+  "Diarista",
+  "Babá",
+  "Cozinheiro(a)",
+  "Manicure/Pedicure",
+  "Cabeleireiro(a)",
+  "Personal Trainer",
+  "Fotógrafo(a)",
+  "Designer",
+  "Desenvolvedor(a)",
+  "Aulas Particulares",
+  "Transporte",
+  "Mudança",
+  "Consultoria",
+  // ... (adicione mais conforme necessário)
+  "Manutenção de computadores",
+  "Outros"
+];
 
 const ProfileSetup = () => {
   const navigate = useNavigate()
@@ -30,6 +59,7 @@ const ProfileSetup = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const [avatar, setAvatar] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string>("")
+  const [showOtherService, setShowOtherService] = useState(false);
 
   const [formData, setFormData] = useState({
     // Informações básicas
@@ -286,118 +316,157 @@ const ProfileSetup = () => {
     </div>
   )
 
-  const renderStep2 = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          {user?.role === 'provider' ? 'Informações Profissionais' : 'Sobre Você'}
-        </h2>
-        <p className="text-gray-600">
-          {user?.role === 'provider' 
-            ? 'Conte-nos sobre seus serviços e experiência'
-            : 'Conte-nos um pouco sobre você'
-          }
-        </p>
-      </div>
+  const renderStep2 = () => {
+    const [serviceSearch, setServiceSearch] = useState("");
+    // Filtra serviços normalmente, mas sempre inclui 'Outros' no final
+    const filteredOptions = useMemo(() => {
+      const filtered = serviceOptions.filter(opt =>
+        opt.toLowerCase().includes(serviceSearch.toLowerCase()) && opt !== "Outros"
+      );
+      // Se o termo digitado não for vazio, sempre mostra 'Outros' no final
+      if (!filtered.includes("Outros")) filtered.push("Outros");
+      return filtered;
+    }, [serviceSearch]);
 
-      {user?.role === 'provider' ? (
-        <>
-          {/* Serviços */}
-          <div className="space-y-2">
-            <Label htmlFor="services">Serviços Oferecidos</Label>
-            <div className="relative">
-              <Briefcase className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+    return (
+      <div className="space-y-6">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            {user?.role === 'provider' ? 'Informações Profissionais' : 'Sobre Você'}
+          </h2>
+          <p className="text-gray-600">
+            {user?.role === 'provider' 
+              ? 'Conte-nos sobre seus serviços e experiência'
+              : 'Conte-nos um pouco sobre você'
+            }
+          </p>
+        </div>
+
+        {user?.role === 'provider' ? (
+          <>
+            {/* Serviços */}
+            <div className="space-y-2">
+              <Label htmlFor="services">Serviços Oferecidos</Label>
+              <Popover>
+                <Command>
+                  <CommandInput 
+                    placeholder="Busque ou selecione um serviço..." 
+                    value={serviceSearch}
+                    onValueChange={setServiceSearch}
+                  />
+                  <CommandList>
+                    <CommandEmpty>Nenhum serviço encontrado</CommandEmpty>
+                    {filteredOptions.map((option) => (
+                      <CommandItem
+                        key={option}
+                        value={option}
+                        onSelect={() => {
+                          handleInputChange('services', option);
+                          setShowOtherService(option === 'Outros');
+                          setServiceSearch("");
+                        }}
+                      >
+                        {option}
+                      </CommandItem>
+                    ))}
+                  </CommandList>
+                </Command>
+              </Popover>
+              {showOtherService && (
+                <Input
+                  className="mt-2"
+                  placeholder="Descreva o serviço oferecido"
+                  value={formData.services === 'Outros' ? '' : formData.services}
+                  onChange={e => handleInputChange('services', e.target.value)}
+                />
+              )}
+              {!showOtherService && formData.services && (
+                <div className="text-sm text-gray-600 mt-1">Selecionado: {formData.services}</div>
+              )}
+            </div>
+
+            {/* Anos de experiência */}
+            <div className="space-y-2">
+              <Label htmlFor="experience">Anos de Experiência</Label>
               <Input
-                id="services"
-                placeholder="Ex: Limpeza, Jardinagem, Pintura"
-                className="pl-10"
-                value={formData.services}
-                onChange={(e) => handleInputChange('services', e.target.value)}
+                id="experience"
+                type="number"
+                placeholder="Ex: 5"
+                value={formData.experience_years}
+                onChange={(e) => handleInputChange('experience_years', e.target.value)}
               />
             </div>
-          </div>
 
-          {/* Anos de experiência */}
-          <div className="space-y-2">
-            <Label htmlFor="experience">Anos de Experiência</Label>
-            <Input
-              id="experience"
-              type="number"
-              placeholder="Ex: 5"
-              value={formData.experience_years}
-              onChange={(e) => handleInputChange('experience_years', e.target.value)}
-            />
-          </div>
+            {/* Preço por hora */}
+            <div className="space-y-2">
+              <Label htmlFor="hourlyRate">Preço por Hora (R$)</Label>
+              <Input
+                id="hourlyRate"
+                type="number"
+                placeholder="Ex: 50"
+                value={formData.hourly_rate}
+                onChange={(e) => handleInputChange('hourly_rate', e.target.value)}
+              />
+            </div>
 
-          {/* Preço por hora */}
-          <div className="space-y-2">
-            <Label htmlFor="hourlyRate">Preço por Hora (R$)</Label>
-            <Input
-              id="hourlyRate"
-              type="number"
-              placeholder="Ex: 50"
-              value={formData.hourly_rate}
-              onChange={(e) => handleInputChange('hourly_rate', e.target.value)}
-            />
-          </div>
+            {/* Disponibilidade */}
+            <div className="space-y-2">
+              <Label htmlFor="availability">Disponibilidade</Label>
+              <Input
+                id="availability"
+                placeholder="Ex: Segunda a Sexta, 8h às 18h"
+                value={formData.availability}
+                onChange={(e) => handleInputChange('availability', e.target.value)}
+              />
+            </div>
 
-          {/* Disponibilidade */}
-          <div className="space-y-2">
-            <Label htmlFor="availability">Disponibilidade</Label>
-            <Input
-              id="availability"
-              placeholder="Ex: Segunda a Sexta, 8h às 18h"
-              value={formData.availability}
-              onChange={(e) => handleInputChange('availability', e.target.value)}
-            />
-          </div>
+            {/* Especializações */}
+            <div className="space-y-2">
+              <Label htmlFor="specializations">Especializações</Label>
+              <Input
+                id="specializations"
+                placeholder="Ex: Limpeza residencial, Limpeza comercial"
+                value={formData.specializations}
+                onChange={(e) => handleInputChange('specializations', e.target.value)}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Bio para usuários */}
+            <div className="space-y-2">
+              <Label htmlFor="bio">Sobre Você</Label>
+              <Textarea
+                id="bio"
+                placeholder="Conte-nos um pouco sobre você e seus interesses..."
+                rows={4}
+                value={formData.bio}
+                onChange={(e) => handleInputChange('bio', e.target.value)}
+              />
+            </div>
+          </>
+        )}
 
-          {/* Especializações */}
-          <div className="space-y-2">
-            <Label htmlFor="specializations">Especializações</Label>
-            <Input
-              id="specializations"
-              placeholder="Ex: Limpeza residencial, Limpeza comercial"
-              value={formData.specializations}
-              onChange={(e) => handleInputChange('specializations', e.target.value)}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Bio para usuários */}
-          <div className="space-y-2">
-            <Label htmlFor="bio">Sobre Você</Label>
-            <Textarea
-              id="bio"
-              placeholder="Conte-nos um pouco sobre você e seus interesses..."
-              rows={4}
-              value={formData.bio}
-              onChange={(e) => handleInputChange('bio', e.target.value)}
-            />
-          </div>
-        </>
-      )}
-
-      {/* Descrição */}
-      <div className="space-y-2">
-        <Label htmlFor="description">
-          {user?.role === 'provider' ? 'Descrição do Perfil' : 'Descrição'}
-        </Label>
-        <Textarea
-          id="description"
-          placeholder={
-            user?.role === 'provider' 
-              ? "Descreva sua experiência, especialidades e como você pode ajudar..."
-              : "Descreva o que você está procurando..."
-          }
-          rows={4}
-          value={formData.description}
-          onChange={(e) => handleInputChange('description', e.target.value)}
-        />
+        {/* Descrição */}
+        <div className="space-y-2">
+          <Label htmlFor="description">
+            {user?.role === 'provider' ? 'Descrição do Perfil' : 'Descrição'}
+          </Label>
+          <Textarea
+            id="description"
+            placeholder={
+              user?.role === 'provider' 
+                ? "Descreva sua experiência, especialidades e como você pode ajudar..."
+                : "Descreva o que você está procurando..."
+            }
+            rows={4}
+            value={formData.description}
+            onChange={(e) => handleInputChange('description', e.target.value)}
+          />
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 
   const renderStep3 = () => (
     <div className="space-y-6">

@@ -8,6 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { cn } from "@/lib/utils"
 import { AuthToggle } from "./AuthToggle"
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useEffect } from 'react';
 
 interface AuthFormProps {
   mode: 'login' | 'register'
@@ -86,14 +88,36 @@ const SERVICES_LIST = [
   "Cozinheiros (as)",
   "Garçons",
   "Lavanderia",
-  "Guias turísticos"
+  "Guias turísticos",
+  "Outros"
 ]
+
+// Mapeamento de cidades para faixas de CEP (exemplo, ajuste conforme necessário)
+const cityCepRanges = {
+  'Mogi Guaçu': [/^1384[0-9]{3}$/],
+  'Mogi Mirim': [/^1380[0-9]{3}$/],
+  'Estiva Gerbi': [/^13857[0-9]{2}$/],
+  'Espírito Santo do Pinhal': [/^1399[0-9]{3}$/],
+  'Águas de Lindóia': [/^1394[0-9]{3}$/],
+  'Lindóia': [/^1395[0-9]{3}$/],
+  'Serra Negra': [/^1393[0-9]{3}$/],
+  'Amparo': [/^1390[0-9]{3}$/],
+  'Monte Alegre do Sul': [/^1391[0-9]{3}$/],
+  'Socorro': [/^1396[0-9]{3}$/],
+  'Pedreira': [/^1392[0-9]{3}$/],
+  'Jacutinga': [/^3759[0-9]{3}$/],
+  'Monte Sião': [/^3758[0-9]{3}$/],
+};
 
 export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [userType, setUserType] = useState<'user' | 'provider'>('user')
   const [openServices, setOpenServices] = useState(false)
+  const [showOtherModal, setShowOtherModal] = useState(false);
+  const [otherAcknowledged, setOtherAcknowledged] = useState(false);
+  const [showCepModal, setShowCepModal] = useState(false);
+  const [cepInput, setCepInput] = useState('');
   
   // Estados do formulário
   const [formData, setFormData] = useState({
@@ -109,7 +133,8 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
     city: '',
     state: '',
     services: '',
-    description: ''
+    description: '',
+    otherService: '' // Novo campo para serviço 'Outros'
   })
 
   const handleInputChange = (field: string, value: string) => {
@@ -164,11 +189,30 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
           location: `${formData.address}, ${formData.number} - ${formData.city}, ${formData.state}`,
           // Converter nome completo para firstName e lastName
           firstName: formData.fullName.split(' ')[0] || '',
-          lastName: formData.fullName.split(' ').slice(1).join(' ') || ''
+          lastName: formData.fullName.split(' ').slice(1).join(' ') || '',
+          // Adicionar o serviço 'Outros' ao array de serviços
+          services: formData.otherService ? [...formData.services.split(','), formData.otherService].filter(s => s) : formData.services.split(',').filter(s => s)
         }
 
     onSubmit(submitData)
   }
+
+  const providerCities = [
+    'Mogi Guaçu',
+    'Mogi Mirim',
+    'Itapira',
+    'Estiva Gerbi',
+    'Espírito Santo do Pinhal',
+    'Águas de Lindóia',
+    'Lindóia',
+    'Serra Negra',
+    'Amparo',
+    'Monte Alegre do Sul',
+    'Socorro',
+    'Pedreira',
+    'Jacutinga',
+    'Monte Sião'
+  ];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -250,76 +294,167 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
 
           {/* Campos de endereço */}
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="cep">CEP</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="cep"
-                  type="text"
-                  placeholder="00000-000"
-                  className="pl-10"
-                  value={formData.cep}
-                  onChange={(e) => handleCepChange(e.target.value.replace(/\D/g, ''))}
-                  maxLength={8}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="address">Endereço</Label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            {/* Localização - ordem dinâmica */}
+            {userType === 'provider' ? (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="state">Estado</Label>
+                  <select
+                    id="state"
+                    className="w-full border rounded-md px-3 py-2 text-sm"
+                    value={formData.state}
+                    onChange={e => handleInputChange('state', e.target.value)}
+                    required
+                  >
+                    <option value="">Selecione o estado</option>
+                    <option value="SP">SP</option>
+                    <option value="MG">MG</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="city">Cidade</Label>
+                  <select
+                    id="city"
+                    className="w-full border rounded-md px-3 py-2 text-sm"
+                    value={formData.city}
+                    onChange={e => handleInputChange('city', e.target.value)}
+                    required
+                  >
+                    <option value="">Selecione a cidade</option>
+                    {providerCities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cep">CEP</Label>
+                  <Input
+                    id="cep"
+                    placeholder="Digite o CEP"
+                    value={cepInput}
+                    onChange={e => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      // Só valida se já tem cidade selecionada E o CEP tem 8 dígitos
+                      if (formData.city && value.length === 8) {
+                        const patterns = cityCepRanges[formData.city] || [];
+                        const isValid = patterns.some(re => re.test(value));
+                        if (!isValid) {
+                          setShowCepModal(true);
+                          setCepInput('');
+                          handleInputChange('cep', '');
+                          handleInputChange('address', '');
+                          return;
+                        }
+                      }
+                      setCepInput(value);
+                      handleInputChange('cep', value);
+                      // Buscar endereço automaticamente
+                      if (value.length === 8) {
+                        fetch(`https://viacep.com.br/ws/${value}/json/`)
+                          .then(res => res.json())
+                          .then(data => {
+                            if (!data.erro) {
+                              handleInputChange('address', data.logradouro || '');
+                            } else {
+                              handleInputChange('address', '');
+                            }
+                          });
+                      } else {
+                        handleInputChange('address', '');
+                      }
+                    }}
+                    required
+                    maxLength={8}
+                  />
+                </div>
+                {/* Endereço preenchido automaticamente */}
+                <div className="space-y-2">
+                  <Label htmlFor="address">Endereço</Label>
                   <Input
                     id="address"
-                    type="text"
-                    placeholder="Rua, Avenida, etc."
-                    className="pl-10"
+                    placeholder="Endereço será preenchido automaticamente"
                     value={formData.address}
-                    onChange={(e) => handleInputChange('address', e.target.value)}
+                    readOnly
+                  />
+                </div>
+                {/* Número manual */}
+                <div className="space-y-2">
+                  <Label htmlFor="number">Nº</Label>
+                  <Input
+                    id="number"
+                    placeholder="Número"
+                    value={formData.number}
+                    onChange={e => handleInputChange('number', e.target.value)}
                     required
                   />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="number">Nº</Label>
-                <Input
-                  id="number"
-                  type="text"
-                  placeholder="123"
-                  value={formData.number}
-                  onChange={(e) => handleInputChange('number', e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city">Cidade</Label>
-                <Input
-                  id="city"
-                  type="text"
-                  placeholder="Sua cidade"
-                  value={formData.city}
-                  onChange={(e) => handleInputChange('city', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="state">Estado</Label>
-                <Input
-                  id="state"
-                  type="text"
-                  placeholder="SP"
-                  value={formData.state}
-                  onChange={(e) => handleInputChange('state', e.target.value)}
-                  required
-                />
-              </div>
-            </div>
+                {/* Modal de aviso para CEP */}
+                <Dialog open={showCepModal} onOpenChange={setShowCepModal}>
+                  <DialogContent className="max-w-md text-center">
+                    <h2 className="text-lg font-bold mb-4">AVISO!</h2>
+                    <p className="mb-6">
+                      Essa cidade não faz parte da zona de abrangência do aplicativo.
+                    </p>
+                    <Button className="w-full" onClick={() => setShowCepModal(false)}>
+                      Entendi
+                    </Button>
+                  </DialogContent>
+                </Dialog>
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="cep">CEP</Label>
+                  <Input
+                    id="cep"
+                    placeholder="Digite o CEP"
+                    value={formData.cep}
+                    onChange={e => handleCepChange(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Endereço</Label>
+                  <Input
+                    id="address"
+                    placeholder="Digite o endereço"
+                    value={formData.address}
+                    onChange={e => handleInputChange('address', e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="number">Nº</Label>
+                  <Input
+                    id="number"
+                    placeholder="Número"
+                    value={formData.number}
+                    onChange={e => handleInputChange('number', e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="city">Cidade</Label>
+                  <Input
+                    id="city"
+                    placeholder="Digite a cidade"
+                    value={formData.city}
+                    onChange={e => handleInputChange('city', e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="state">Estado</Label>
+                  <Input
+                    id="state"
+                    placeholder="Digite o estado"
+                    value={formData.state}
+                    onChange={e => handleInputChange('state', e.target.value)}
+                    required
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           {userType === 'provider' && (
@@ -353,6 +488,10 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
                               onSelect={(currentValue) => {
                                 handleInputChange('services', currentValue)
                                 setOpenServices(false)
+                                if (currentValue === 'Outros') {
+                                  setShowOtherModal(true)
+                                  setOtherAcknowledged(false)
+                                }
                               }}
                             >
                               <Check
@@ -369,18 +508,19 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
                     </Command>
                   </PopoverContent>
                 </Popover>
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="description">Descrição do Perfil</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Descreva sua experiência e especialidades..."
-                  rows={3}
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  required
-                />
+                {/* Campo extra para 'Outros' */}
+                {formData.services === 'Outros' && otherAcknowledged && (
+                  <div className="space-y-2 mt-2">
+                    <Label htmlFor="otherService">Qual?</Label>
+                    <Input
+                      id="otherService"
+                      placeholder="Digite o nome do serviço"
+                      value={formData.otherService || ''}
+                      onChange={e => handleInputChange('otherService', e.target.value)}
+                      required
+                    />
+                  </div>
+                )}
               </div>
             </>
           )}
@@ -479,6 +619,19 @@ export const AuthForm = ({ mode, onSubmit, loading = false }: AuthFormProps) => 
           mode === 'login' ? 'Entrar' : 'Criar Conta'
         )}
       </Button>
+
+      {/* Modal de aviso para 'Outros' */}
+      <Dialog open={showOtherModal} onOpenChange={setShowOtherModal}>
+        <DialogContent className="max-w-md text-center">
+          <h2 className="text-lg font-bold mb-4">AVISO!</h2>
+          <p className="mb-6">
+            Como essa categoria de serviço ainda não está registrada em nosso aplicativo, seu perfil passará por uma análise para aprovação. Assim que o cadastro for aprovado, você será avisado por e-mail.
+          </p>
+          <Button className="w-full" onClick={() => { setShowOtherModal(false); setOtherAcknowledged(true); }}>
+            Entendi
+          </Button>
+        </DialogContent>
+      </Dialog>
     </form>
   )
 } 
