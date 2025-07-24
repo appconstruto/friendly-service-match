@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          address: string | null
+          availability: string | null
+          avatar_url: string | null
+          bio: string | null
+          birth_date: string | null
+          cep: string | null
+          city: string | null
+          created_at: string | null
+          description: string | null
+          display_name: string | null
+          email: string
+          experience_years: number | null
+          first_name: string | null
+          hourly_rate: number | null
+          id: string
+          last_name: string | null
+          location: string | null
+          notifications: boolean | null
+          number: string | null
+          phone: string | null
+          preferred_contact: string | null
+          profile_completed: boolean | null
+          public_profile: boolean | null
+          role: string
+          services: string | null
+          social_media: string | null
+          specializations: string | null
+          state: string | null
+          updated_at: string | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          availability?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name?: string | null
+          email: string
+          experience_years?: number | null
+          first_name?: string | null
+          hourly_rate?: number | null
+          id: string
+          last_name?: string | null
+          location?: string | null
+          notifications?: boolean | null
+          number?: string | null
+          phone?: string | null
+          preferred_contact?: string | null
+          profile_completed?: boolean | null
+          public_profile?: boolean | null
+          role: string
+          services?: string | null
+          social_media?: string | null
+          specializations?: string | null
+          state?: string | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          availability?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name?: string | null
+          email?: string
+          experience_years?: number | null
+          first_name?: string | null
+          hourly_rate?: number | null
+          id?: string
+          last_name?: string | null
+          location?: string | null
+          notifications?: boolean | null
+          number?: string | null
+          phone?: string | null
+          preferred_contact?: string | null
+          profile_completed?: boolean | null
+          public_profile?: boolean | null
+          role?: string
+          services?: string | null
+          social_media?: string | null
+          specializations?: string | null
+          state?: string | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
