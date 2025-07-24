@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/integrations/supabase/client'
 
 interface ProfileCheckProps {
   children: React.ReactNode
@@ -15,11 +15,6 @@ export const ProfileCheck = ({ children, redirectToSetup = true }: ProfileCheckP
   useEffect(() => {
     const checkProfile = async () => {
       if (!user || loading) return
-
-      // Modo de desenvolvimento - pular verificação de perfil
-      if (user.email?.includes('teste.com')) {
-        return
-      }
 
       try {
         const { data: profile } = await supabase

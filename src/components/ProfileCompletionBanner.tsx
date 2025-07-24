@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/integrations/supabase/client'
 import { Button } from '@/components/ui/button'
 import { X, User, AlertCircle } from 'lucide-react'
 
@@ -14,11 +14,6 @@ export const ProfileCompletionBanner = () => {
   useEffect(() => {
     const checkProfileCompletion = async () => {
       if (!user) return
-
-      // Modo de desenvolvimento - não mostrar banner para usuários de teste
-      if (user.email?.includes('teste.com')) {
-        return
-      }
 
       try {
         const { data: profile } = await supabase

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase, UserProfile, AuthUser } from '@/lib/supabase'
+import { supabase } from '@/integrations/supabase/client'
+import { UserProfile, AuthUser } from '@/lib/supabase'
 import { useToast } from '@/hooks/use-toast'
 
 export const useAuth = () => {
@@ -27,7 +28,7 @@ export const useAuth = () => {
             setUser({
               id: user.id,
               email: user.email!,
-              role: profile.role
+              role: profile.role as 'user' | 'provider'
             })
           }
         }
@@ -54,7 +55,7 @@ export const useAuth = () => {
             setUser({
               id: session.user.id,
               email: session.user.email!,
-              role: profile.role
+              role: profile.role as 'user' | 'provider'
             })
           }
         } else {
@@ -71,40 +72,6 @@ export const useAuth = () => {
   const signIn = async (email: string, password: string) => {
     setAuthLoading(true)
     try {
-      // Modo de desenvolvimento - credenciais mock
-      if (email === 'cliente@teste.com' && password === '123456') {
-        const mockUser = {
-          id: '1',
-          email: 'cliente@teste.com',
-          role: 'user' as const
-        }
-        
-        setUser(mockUser)
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Bem-vindo, Usuário! (Modo de desenvolvimento)",
-        })
-        navigate('/cliente')
-        return
-      }
-      
-      if (email === 'prestador@teste.com' && password === '123456') {
-        const mockUser = {
-          id: '2',
-          email: 'prestador@teste.com',
-          role: 'provider' as const
-        }
-        
-        setUser(mockUser)
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Bem-vindo, Prestador! (Modo de desenvolvimento)",
-        })
-        navigate('/prestador')
-        return
-      }
-
-      // Tentar autenticação real se credenciais mock não funcionarem
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -123,7 +90,7 @@ export const useAuth = () => {
           setUser({
             id: data.user.id,
             email: data.user.email!,
-            role: profile.role
+            role: profile.role as 'user' | 'provider'
           })
 
           toast({
@@ -147,7 +114,7 @@ export const useAuth = () => {
     } catch (error: any) {
       toast({
         title: "Erro no login",
-        description: "Email ou senha incorretos. Use as credenciais de teste: cliente@teste.com / 123456 ou prestador@teste.com / 123456",
+        description: "Email ou senha incorretos",
         variant: "destructive",
       })
     } finally {
@@ -169,16 +136,6 @@ export const useAuth = () => {
   }) => {
     setAuthLoading(true)
     try {
-      // Modo de desenvolvimento - simular cadastro
-      if (userData.email.includes('teste.com')) {
-        toast({
-          title: "Cadastro realizado com sucesso!",
-          description: "Sua conta foi criada. Você pode fazer login agora. (Modo de desenvolvimento)",
-        })
-        return true
-      }
-
-      // Tentar cadastro real se não for email de teste
       const { data, error } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
@@ -192,23 +149,6 @@ export const useAuth = () => {
       if (error) throw error
 
       if (data.user) {
-        // Criar perfil na tabela profiles
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: data.user.id,
-            email: userData.email,
-            role: userData.role,
-            first_name: userData.first_name,
-            last_name: userData.last_name,
-            phone: userData.phone,
-            location: userData.location,
-            services: userData.services || null,
-            description: userData.description || null
-          })
-
-        if (profileError) throw profileError
-
         toast({
           title: "Cadastro realizado com sucesso!",
           description: "Sua conta foi criada. Você pode fazer login agora.",
@@ -231,19 +171,6 @@ export const useAuth = () => {
   // Logout
   const signOut = async () => {
     try {
-      // Modo de desenvolvimento - logout mock
-      if (user?.email?.includes('teste.com')) {
-        setUser(null)
-        navigate('/login')
-        
-        toast({
-          title: "Logout realizado",
-          description: "Você foi desconectado com sucesso. (Modo de desenvolvimento)",
-        })
-        return
-      }
-
-      // Logout real
       const { error } = await supabase.auth.signOut()
       if (error) throw error
 

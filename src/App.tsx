@@ -20,7 +20,7 @@ import PerfilProfissional from "./pages/PerfilProfissional";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ProfileCheck } from "./components/ProfileCheck";
 import { ProfileCompletionBanner } from "./components/ProfileCompletionBanner";
-import { DevModeBanner } from "./components/DevModeBanner";
+
 import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
@@ -32,7 +32,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <DevModeBanner />
           <ProfileCompletionBanner />
           <Dock />
         <Routes>
