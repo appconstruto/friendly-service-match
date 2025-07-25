@@ -31,7 +31,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <ProfileCompletionBanner />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/busca" element={<Busca />} />
@@ -41,6 +40,7 @@ const App = () => (
           <Route path="/cliente" element={
             <ProtectedRoute requiredRole="user">
               <ProfileCheck>
+                <ProfileCompletionBanner />
                 <Cliente />
               </ProfileCheck>
             </ProtectedRoute>
@@ -48,6 +48,7 @@ const App = () => (
           <Route path="/prestador" element={
             <ProtectedRoute requiredRole="provider">
               <ProfileCheck>
+                <ProfileCompletionBanner />
                 <Prestador />
               </ProfileCheck>
             </ProtectedRoute>
@@ -62,7 +63,12 @@ const App = () => (
               </ProfileCheck>
             </ProtectedRoute>
           } />
-          <Route path="/avaliacoes" element={<ProtectedRoute><Avaliacoes /></ProtectedRoute>} />
+          <Route path="/avaliacoes" element={
+            <ProtectedRoute>
+              <ProfileCompletionBanner />
+              <Avaliacoes />
+            </ProtectedRoute>
+          } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
