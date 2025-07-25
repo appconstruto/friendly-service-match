@@ -1,4 +1,5 @@
 import React from "react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const mockProfile = {
   name: "dreamy_diya",
@@ -9,7 +10,8 @@ const mockProfile = {
 
 const PerfilProfissional: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#DCE6F2] via-[#B3C8F2] to-[#725EF2] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-100 via-blue-50 to-blue-100 p-4">
+      <HamburgerMenu />
       <div className="w-full max-w-xs sm:max-w-md md:max-w-lg bg-white rounded-3xl shadow-2xl flex flex-col items-center p-4 sm:p-8 gap-4 sm:gap-6 mx-auto">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Perfil do Profissional</h2>
         <img src={mockProfile.avatar} alt={mockProfile.name} className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white shadow-lg mb-2" />

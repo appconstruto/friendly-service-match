@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft, Search, User } from "lucide-react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const NotFound = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <HamburgerMenu />
       <div className="max-w-md w-full text-center">
         {/* Ícone de erro */}
         <div className="mb-8">

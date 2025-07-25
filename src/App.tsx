@@ -14,7 +14,6 @@ import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Busca from "./pages/Busca";
 import PerfilPrestador from "./pages/PerfilPrestador";
-import Dock from "./components/Dock";
 import Configuracoes from "./pages/Configuracoes";
 import PerfilProfissional from "./pages/PerfilProfissional";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -33,7 +32,6 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ProfileCompletionBanner />
-          <Dock />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/busca" element={<Busca />} />

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Briefcase, Eye, EyeOff, Mail, Lock, Phone, MapPin } from "lucide-react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,6 +74,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-0">
+      <HamburgerMenu />
       <div className="w-full max-w-4xl flex flex-col items-center justify-center min-h-[500px] h-full">
         <div className="w-full flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold text-blue-600 mb-2">ServicesHub</h1>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Star, StarHalf, Wifi, Home, Search as SearchIcon, User as UserIcon, Settings as SettingsIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const professionals = [
   {
@@ -98,7 +99,8 @@ const Busca: React.FC = () => {
   ];
 
   return (
-    <div className="main-container p-4 sm:p-6 md:p-8 bg-indigo-50 min-h-screen font-poppins md:ml-20 pb-24">
+    <div className="main-container p-4 sm:p-6 md:p-8 bg-gradient-to-b from-blue-100 via-blue-50 to-blue-100 min-h-screen font-poppins md:ml-20 pb-24">
+      <HamburgerMenu />
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Sidebar de filtros */}
         <aside className="w-full lg:w-1/4 xl:w-1/5 mb-6 lg:mb-0">

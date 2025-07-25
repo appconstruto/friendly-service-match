@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { User, Calendar, Star, Settings, LogOut } from "lucide-react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface Service {
   id: string;
@@ -37,7 +38,8 @@ const PerfilPrestador: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-indigo-50 font-poppins md:ml-20 pb-24 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-blue-50 to-blue-100 font-poppins md:ml-20 pb-24 flex flex-col md:flex-row">
+      <HamburgerMenu />
       {/* Sidebar de perfil à esquerda */}
       <aside className="hidden md:flex flex-col w-80 bg-white rounded-2xl shadow-lg p-4 md:p-8 mr-0 md:mr-8 mb-6 md:mb-0">
         <div className="flex flex-col items-center mb-10">

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ArrowLeft, Eye, EyeOff, Check } from "lucide-react"
+import HamburgerMenu from "@/components/HamburgerMenu"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -194,6 +195,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 via-blue-50 to-blue-100 flex flex-col">
+      <HamburgerMenu />
       {/* Header com seta de voltar */}
       <div className="flex items-center p-4 pt-12">
         <button 

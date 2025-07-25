@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Home, Search as SearchIcon, User as UserIcon, Settings as SettingsIcon, Bell, Shield, Palette, Globe, Moon, Sun } from "lucide-react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const Configuracoes: React.FC = () => {
   const [settings, setSettings] = useState({
@@ -21,7 +22,8 @@ const Configuracoes: React.FC = () => {
   };
 
   return (
-    <div className="bg-indigo-100 flex items-center justify-center min-h-screen font-inter">
+    <div className="bg-gradient-to-b from-blue-100 via-blue-50 to-blue-100 flex items-center justify-center min-h-screen font-inter">
+      <HamburgerMenu />
       <div className="flex flex-col lg:flex-row gap-4 w-full max-w-6xl p-4 md:ml-20 pb-24">
         {/* Sidebar/Dock */}
         {/* Main */}
