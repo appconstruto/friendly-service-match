@@ -111,10 +111,10 @@ export const ServicosJaLogin = ({ onSubmit, loading = false, onBack }: ServicosJ
         </form>
 
         {/* Espaço flexível para empurrar o botão para baixo */}
-        <div className="flex-1 min-h-[40px]"></div>
+        <div className="flex-1 min-h-[60px]"></div>
 
         {/* Botão Entrar */}
-        <div className="w-full max-w-sm pb-8 pt-2">
+        <div className="w-full max-w-sm pb-20 pt-2">
           <Button
             type="submit"
             onClick={handleSubmit}

@@ -76,50 +76,34 @@ export const useAuth = () => {
   // Login
   const signIn = async (email: string, password: string) => {
     setAuthLoading(true)
+    
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
+      // Sistema mock para desenvolvimento - qualquer email/senha redireciona para busca
+      console.log('Tentando login com:', email, password)
+      
+      // Simular delay de autenticação
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Simular usuário logado
+      setUser({
+        id: 'mock-user-id',
+        email: email,
+        role: 'user'
       })
 
-      if (error) throw error
+      toast({
+        title: "Login realizado com sucesso!",
+        description: "Bem-vindo!",
+      })
 
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', data.user.id)
-          .single()
-
-        if (profile) {
-          setUser({
-            id: data.user.id,
-            email: data.user.email!,
-            role: profile.role as 'user' | 'provider'
-          })
-
-          toast({
-            title: "Login realizado com sucesso!",
-            description: `Bem-vindo, ${profile.role === 'user' ? 'Usuário' : 'Prestador'}!`,
-          })
-
-          // Verificar se o perfil está completo
-          if (!profile.profile_completed) {
-            navigate('/profile-setup')
-          } else {
-            // Redirecionar baseado no role
-            if (profile.role === 'user') {
-              navigate('/cliente')
-            } else {
-              navigate('/prestador')
-            }
-          }
-        }
-      }
+      // Sempre redirecionar para a página de busca
+      navigate('/busca')
+      
     } catch (error: any) {
+      console.error('Erro no login:', error)
       toast({
         title: "Erro no login",
-        description: "Email ou senha incorretos",
+        description: "Tente novamente",
         variant: "destructive",
       })
     } finally {
