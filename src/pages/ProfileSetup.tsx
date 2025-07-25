@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuthContext } from "@/contexts/AuthContext"
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/integrations/supabase/client"
 import HamburgerMenu from "@/components/HamburgerMenu"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -157,14 +157,18 @@ const ProfileSetup = () => {
         avatarUrl = await uploadAvatar()
       }
 
+      const updateData = {
+        ...formData,
+        experience_years: formData.experience_years ? parseInt(formData.experience_years) : null,
+        hourly_rate: formData.hourly_rate ? parseFloat(formData.hourly_rate) : null,
+        avatar_url: avatarUrl,
+        profile_completed: true,
+        updated_at: new Date().toISOString()
+      }
+
       const { error } = await supabase
         .from('profiles')
-        .update({
-          ...formData,
-          avatar_url: avatarUrl,
-          profile_completed: true,
-          updated_at: new Date().toISOString()
-        })
+        .update(updateData)
         .eq('id', user?.id)
 
       if (error) throw error

@@ -163,11 +163,21 @@ const Register = () => {
     }
 
     const submitData = {
-      ...formData,
+      email: formData.email,
+      password: formData.password,
       role: userType,
-      fullName: `${formData.firstName} ${formData.lastName}`,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      phone: formData.phone,
       location: `${formData.address}, ${formData.number} - ${formData.city}, ${formData.state}`,
-      services: formData.otherService ? [...formData.services.split(','), formData.otherService].filter(s => s) : formData.services.split(',').filter(s => s)
+      services: formData.otherService ? [formData.services, formData.otherService].filter(s => s).join(', ') : formData.services,
+      description: formData.description,
+      display_name: formData.displayName,
+      cep: formData.cep,
+      address: formData.address,
+      number: formData.number,
+      city: formData.city,
+      state: formData.state
     }
 
     const success = await signUp(submitData)

@@ -1,6 +1,11 @@
 import { createContext, useContext, ReactNode } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { AuthUser } from '@/lib/supabase'
+
+interface AuthUser {
+  id: string
+  email: string
+  role: 'user' | 'provider'
+}
 
 interface AuthContextType {
   user: AuthUser | null

@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/integrations/supabase/client'
-import { UserProfile, AuthUser } from '@/lib/supabase'
 import { useToast } from '@/hooks/use-toast'
+
+interface AuthUser {
+  id: string
+  email: string
+  role: 'user' | 'provider'
+}
 
 export const useAuth = () => {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -133,6 +138,12 @@ export const useAuth = () => {
     location: string
     services?: string
     description?: string
+    display_name?: string
+    cep?: string
+    address?: string
+    number?: string
+    city?: string
+    state?: string
   }) => {
     setAuthLoading(true)
     try {
@@ -149,6 +160,36 @@ export const useAuth = () => {
       if (error) throw error
 
       if (data.user) {
+        // Aguardar a criação do perfil pelo trigger
+        setTimeout(async () => {
+          try {
+            // Atualizar o perfil com dados adicionais
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .update({
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                phone: userData.phone,
+                display_name: userData.display_name,
+                cep: userData.cep,
+                address: userData.address,
+                number: userData.number,
+                city: userData.city,
+                state: userData.state,
+                location: userData.location,
+                services: userData.services,
+                description: userData.description
+              })
+              .eq('id', data.user.id)
+
+            if (profileError) {
+              console.error('Erro ao atualizar perfil:', profileError)
+            }
+          } catch (error) {
+            console.error('Erro ao processar perfil:', error)
+          }
+        }, 1000)
+
         toast({
           title: "Cadastro realizado com sucesso!",
           description: "Sua conta foi criada. Você pode fazer login agora.",
